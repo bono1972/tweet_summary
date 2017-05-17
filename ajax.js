@@ -6,16 +6,14 @@ $(function () {
         url: 'main.php',
         type: 'post', // getかpostを指定(デフォルトは前者)
         dataType: 'html', // 「json」を指定するとresponseがJSONとしてパースされたオブジェクトになる
-        /*
-        data: { // 送信データを指定(getの場合は自動的にurlの後ろにクエリとして付加される)
-            message: $('#massage').val()
-        }
-        */
     })
     // ・ステータスコードは正常で、dataTypeで定義したようにパース出来たとき
     .done(function (response) {
         //console.log(response);
         $('#answer').append(response);
+        //textareaに予めフォーカスを当てておき、文字列に変更なくツイートする場合も
+        //テキストエリア変化監視のblurによって変数textの内容を取得する
+        $('#textarea').focus();
     })
     // ・サーバからステータスコード400以上が返ってきたとき
     // ・ステータスコードは正常だが、dataTypeで定義したようにパース出来なかったとき
@@ -30,7 +28,6 @@ $(function () {
             url: 'logout.php',
             type: 'post',
             dataType: 'html',
-            
         })
         .done(function (response) {
             $('#answer').empty();
@@ -58,10 +55,9 @@ $(function () {
         });
     });
     //テキストエリア変化監視
-    $(document).on('change','#textarea',function () {
+    $(document).on('blur change','#textarea',function () {
         text = $(this).val();
         //console.log(text);
-        //$('#test_area').text(text);
     });
 
 });
